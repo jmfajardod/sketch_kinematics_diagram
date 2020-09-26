@@ -7,6 +7,7 @@ Based on sketch:
 And sketch-lib from Alex Dumitrache alex@cimr.pub.ro :
 
 > http://alexdu.github.io/sketch-lib/
+>
 > github.com/alexdu/sketch-lib
 
 ## To use
