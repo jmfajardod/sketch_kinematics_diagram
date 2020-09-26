@@ -1,0 +1,26 @@
+#!/bin/bash
+
+name=${1%.*}
+sk=${1%.*}.sk
+tex=${1%.*}.tex
+pdf=${1%.*}.pdf
+ps=${1%.*}-pics.ps
+dvi=${1%.*}.dvi
+
+echo $name
+echo $tex
+
+../sketch -Te $sk -o $tex
+pdflatex -shell-espace --enable-write18 $tex
+latex $tex
+dvips -o $ps $dvi
+ps2pdf $ps
+pdflatex -shell-espace --enable-write18 $tex
+pdfcrop $pdf $pdf -margins "5 5 5 5"
+
+rm -v ${name}.aux
+rm -v $dvi
+rm -v $ps
+rm -v ${name}.log
+rm -v ${name}.tex
+rm -v ${name}-pics.pdf
