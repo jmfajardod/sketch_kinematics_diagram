@@ -1,0 +1,261 @@
+## Kinematics diagram for the Viper X300S manipulator
+## 
+## Author : Jose Fajardo
+## License: GPL
+
+def blue<>
+input{lib/defaults.sk}
+input{lib/objects.sk}
+
+def Q1 0
+def Q2 0
+def Q3 0
+def Q4 0
+def Q5 0
+def Q6 0
+
+def L1  0.0787
+def L2  0.048
+def L3  0.3
+def L4  0.0596
+def L34 0.3058
+def L5  0.2
+def L6  0.2
+def L7  0.100
+def LEE 0.060
+
+def scale_axes 100
+
+def arrowarc 
+{
+    sweep [style=thick]{215, rotate(1, [Z])} (1,0)
+    def p1 (1,0) then rotate(210, [Z])
+    def p2 (1,0) then rotate(210+30, [Z])
+    line [style=thick, style=->] (p1)(p2)
+}
+
+% The main drawing
+put {scale(1.0)}
+{   
+    % base
+    put {scale(1)}
+    {   
+        % Base plane
+        put{scale([8,8,0.5])}{box}   
+
+        % Base Axes
+        put{scale(1.5) * translate([0,0,0.2])}
+        {
+            {coordsys}
+            special |\path  #1 node[left] {$Z_0$}
+                            #2 node[below] {$X_0$}
+                            #3 node[right] {$Y_0$};|(z)(x)(y)(o)
+        }   
+    
+        % Connecting line
+        line [style=dashed] (0,0,0.2)(0,0,L1*scale_axes) % Init_point End_point (In global RF)
+
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        % Link 1
+
+        % Tranformation to origin
+        put {translate([0,0,L1*scale_axes]) * rotate(Q1, [Z])}
+        {
+            put{scale([1,1,3])}{cylinder}
+
+            put{translate([0,0,L2*scale_axes]) * rotate(0, [X])}
+            {
+                put{scale([2.5,1.5,3.5])} % Lenght of arrows of axes
+                {
+                    {coordsys}
+                    special |\path  #1 node[left] {$Z_1$}
+                                    #2 node[right] {$X_1$}
+                                    #3 node[right] {$Y_1$};|(z)(x)(y)(o)
+                }
+                
+                % Put movement of axis
+                put {translate([0,0,3]) * rotate(180, [Z])}{arrowarc}  % Rotating arrow
+                special|\node[above] at #1 {$\theta_1$};|(1,0,3.5)       % Name of variable | position
+            }   
+
+            % Connecting line
+            line [style=dashed] (0,0,0.2)(0,0,L1*scale_axes) % Init_point End_point (In global RF)
+
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+            % Link 2
+
+            % Tranformation to origin
+            put {translate([0,0,L2*scale_axes]) * rotate(Q2, [Z])}
+            {
+                put{rotate(90, [X]) * scale([1,1,3])}{cylinder}
+
+                put{translate([0,0,0]) * rotate(-90, [X]) * rotate(-59, [Z])  }
+                {
+                    put{scale([4.5,2.5,6.5])} % Lenght of arrows of axes
+                    {
+                        {coordsys}
+                        special |\path  #1 node[right] {$Z_2$}
+                                        #2 node[right] {$X_2$}
+                                        #3 node[below] {$Y_2$};|(z)(x)(y)(o)
+                    }
+                    
+                    % Put movement of axis
+                    put {translate([0,0,4]) * rotate(250, [Z])}{arrowarc}  % Rotating arrow
+                    special|\node[right] at #1 {$\theta_2$};|(0,1,4)       % Name of variable | position
+                }   
+
+                % Connecting line
+                line [style=dashed] (0,0,0.2)(0,0,L3*scale_axes/3) % Init_point End_point (In global RF)
+                line [style=dashed] (0,0,L3*scale_axes/3)(L4*scale_axes,0,L3*scale_axes/3) % Init_point End_point
+                line [style=dashed] (0,0,0)(L4*scale_axes,0,L3*scale_axes/3) % Init_point End_point
+
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                % Link 3
+
+                % Tranformation to origin
+                put {translate([L4*scale_axes,0,L3*scale_axes/3]) * rotate(Q3, [Z])}
+                {
+                    put{rotate(90, [X]) * scale([1,1,3])}{cylinder}
+
+                    put{translate([0,0,0]) * rotate(90, [X]) * rotate(90, [Z]) }
+                    {
+                        put{scale([2.5,2.5,4.5])} % Lenght of arrows of axes
+                        {
+                            {coordsys}
+                            special |\path  #1 node[left] {$Z_3$}
+                                            #2 node[above] {$X_3$}
+                                            #3 node[above] {$Y_3$};|(z)(x)(y)(o)
+                        }
+                        
+                        % Put movement of axis
+                        put {translate([0,0,4]) * rotate(180, [Z])}{arrowarc}  % Rotating arrow
+                        special|\node[above] at #1 {$\theta_3$};|(1,0.5,4)       % Name of variable | position
+                    }   
+
+                    % Connecting line
+                    line [style=dashed] (0,0,0)(L5*scale_axes/3,0,0) % Init_point End_point (In global RF)
+
+                    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                    % Link 4
+
+                    % Tranformation to origin
+                    put {translate([L5*scale_axes/3,0,0]) * rotate(Q4, [Z])}
+                    {
+                        put{rotate(90, [Y]) * scale([1,1,3])}{cylinder}
+
+                        put{translate([L6*scale_axes/3,0,0]) * rotate(90, [Y]) * rotate(180, [Z])  }
+                        {
+                            put{scale([2.5,2.5,2.5])} % Lenght of arrows of axes
+                            {
+                                {coordsys}
+                                special |\path  #1 node[above] {$Z_4$}
+                                                #2 node[right] {$X_4$}
+                                                #3 node[above] {$Y_4$};|(z)(x)(y)(o)
+                            }
+                            
+                            % Put movement of axis
+                            put {translate([0,0,3]) * rotate(135, [Z])}{arrowarc}  % Rotating arrow
+                            special|\node[right] at #1 {$\theta_4$};|(1.5,0,3)       % Name of variable | position
+                        }   
+
+                        % Connecting line
+                        line [style=dashed] (0,0,0)(L6*scale_axes/3,0,0) % Init_point End_point (In global RF)
+
+                        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                        % Link 5
+
+                        % Tranformation to origin
+                        put {translate([L6*scale_axes/3,0,0]) * rotate(Q5, [Z])}
+                        {
+                            put{rotate(90, [X]) * scale([1,1,3])}{cylinder}
+
+                            put{translate([0,0,0]) * rotate(90, [X]) * rotate(90, [Z]) }
+                            {
+                                put{scale([4,2.5,6])} % Lenght of arrows of axes
+                                {
+                                    {coordsys}
+                                    special |\path  #1 node[left] {$Z_5$}
+                                                    #2 node[above] {$X_5$}
+                                                    #3 node[above] {$Y_5$};|(z)(x)(y)(o)
+                                }
+                                
+                                % Put movement of axis
+                                put {translate([0,0,4]) * rotate(230, [Z])}{arrowarc}  % Rotating arrow
+                                special|\node[left] at #1 {$\theta_5$};|(0.5,1,4)       % Name of variable | position
+                            }   
+
+                            % Connecting line
+                            line [style=dashed] (0,0,0)(L7*scale_axes,0,0) % Init_point End_point (In global RF)
+
+                            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                            % Link 6
+
+                            % Tranformation to origin
+                            put {translate([L7*scale_axes,0,0]) * rotate(Q6, [Z])}
+                            {
+                                put{rotate(90, [Y]) * scale([1,1,3])}{cylinder}
+
+                                put{translate([-L7*scale_axes,0,0]) * rotate(90, [Y])  }
+                                {
+                                    put{scale([4,2.5,6])} % Lenght of arrows of axes
+                                    {
+                                        {coordsys}
+                                        special |\path  #1 node[below] {$Z_6$}
+                                                        #2 node[right] {$X_6$}
+                                                        #3 node[left] {$Y_6$};|(z)(x)(y)(o)
+                                    }
+                                    
+                                    % Put movement of axis
+                                    put {translate([0,0,4.5]) * rotate(-30, [Z])}{arrowarc}  % Rotating arrow
+                                    special|\node[above] at #1 {$\theta_6$};|(-1,0,5)       % Name of variable | position
+                                }   
+
+                                % Connecting line
+                                line [style=dashed] (0,0,0)(LEE*scale_axes,0,0) % Init_point End_point (In global RF)
+
+                                %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+                                % End Effector
+
+                                put {translate([LEE*scale_axes,0,0]) * rotate(90, [Y]) }
+                                {
+                                    put{scale([1,2,1])}{box}
+                                    put{translate([0,-0.7,1]) * scale([1,0.2,1])}{box}
+                                    put{translate([0,0.7,1]) * scale([1,0.2,1])}{box}
+
+
+                                    put{translate([0,0,1.25]) * rotate(-90, [Y]) * scale([3,3,3])}
+                                    {
+                                        {coordsys}
+                                        special |\path  #1 node[right] {$Z_{EE}$}
+                                                        #2 node[right] {$X_{EE}$}
+                                                        #3 node[right] {$Y_{EE}$};|(z)(x)(y)(o)
+                                    }   
+                                }
+
+                            } % End Link6
+                        } % End Link5
+                    } % End Link4
+                } % End Link3
+            } % End Link2
+        } % End Link1
+    } % End Base
+} % End Drawing
+
+% \usepackage[a2paper, landscape]{geometry}
+
+global 
+{ 
+    language tikz 
+    camera rotate(0, (1,0,0)) * view((1.5,2,1),(0,0,0),[0,0,1]) * rotate(110, (0,0,1))
+    %picturebox (0,0)(5,5)
+    %camera rotate(0, (1,0,0)) * view((2,1,1),(0,0,0),[0,1,0]) * rotate(110, (0,0,1))
+}
+
+

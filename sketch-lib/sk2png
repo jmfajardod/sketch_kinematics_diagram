@@ -9,7 +9,7 @@ png=${1%.*}.png
 ps=${1%.*}-pics.ps
 dvi=${1%.*}.dvi
 
-../sketch -Te $sk -o $tex
+#../sketch -Tu $sk -o $tex
 pdflatex -shell-espace --enable-write18 $tex
 latex $tex
 dvips -o $ps $dvi
@@ -25,6 +25,7 @@ rm -v ${name}.aux
 rm -v ${name}.log
 rm -v $dvi
 rm -v $ps
-rm -v $tex
+#rm -v $tex
 rm -v ${name}-pics.pdf
 rm -v $pdf
+rm -v *.ppm

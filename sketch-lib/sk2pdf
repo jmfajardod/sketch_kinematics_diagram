@@ -10,7 +10,7 @@ dvi=${1%.*}.dvi
 echo $name
 echo $tex
 
-../sketch -Te $sk -o $tex
+#../sketch -Te $sk -o $tex
 pdflatex -shell-espace --enable-write18 $tex
 latex $tex
 dvips -o $ps $dvi
@@ -22,5 +22,5 @@ rm -v ${name}.aux
 rm -v $dvi
 rm -v $ps
 rm -v ${name}.log
-rm -v ${name}.tex
+#rm -v ${name}.tex
 rm -v ${name}-pics.pdf
